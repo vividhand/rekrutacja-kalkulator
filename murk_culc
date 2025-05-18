@@ -1,0 +1,231 @@
+from PyQt6 import QtCore, QtGui, QtWidgets
+
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        # Основные настройки главного окна
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(600, 400)
+        MainWindow.setStyleSheet("")
+
+        # Центральный виджет
+        self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+
+        # Создание верхних меток (заголовков)
+        self._create_top_labels()
+
+        # Создание левой колонки (результаты экзаменов)
+        self._create_exam_results_column()
+
+        # Создание средней колонки (итоговые оценки)
+        self._create_final_grades_column()
+
+        # Создание правой колонки (кнопка и итоговые результаты)
+        self._create_results_column()
+
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def _create_top_labels(self):
+        """Создает верхние метки (заголовки) интерфейса"""
+        # Главный заголовок
+        self.label_1 = QtWidgets.QLabel(parent=self.centralwidget)
+        self.label_1.setGeometry(QtCore.QRect(0, 0, 600, 50))
+        self.label_1.setStyleSheet("""
+            font: 24pt "Segoe UI";
+            color: rgb(0, 0, 0);
+            background-color: rgb(176, 176, 176);
+        """)
+        self.label_1.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.label_1.setObjectName("label_1")
+
+        # Подзаголовки
+        labels_data = [
+            (0, 50, 200, 30, "Результаты экзаменов", "label_2"),
+            (200, 50, 200, 30, "Итоговые оценки", "label_3"),
+            (400, 50, 200, 30, "Итого", "label_4")
+        ]
+
+        for x, y, w, h, text, name in labels_data:
+            label = QtWidgets.QLabel(parent=self.centralwidget)
+            label.setGeometry(QtCore.QRect(x, y, w, h))
+            label.setStyleSheet("""
+                font: 13pt "Microsoft JhengHei UI";
+                background-color: rgb(0, 255, 0);
+            """)
+            if name == "label_4":
+                label.setStyleSheet("""
+                    font: 20pt "Microsoft JhengHei UI";
+                    background-color: rgb(0, 255, 0);
+                """)
+            label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+            label.setObjectName(name)
+            setattr(self, name, label)
+
+    def _create_exam_results_column(self):
+        """Создает левую колонку с результатами экзаменов"""
+        self.verticalLayoutWidget = QtWidgets.QWidget(parent=self.centralwidget)
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(0, 80, 201, 321))
+        self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
+
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout.setObjectName("verticalLayout")
+
+        # Элементы для польского языка
+        self._create_label_and_input(
+            "Результат экзамена с польского:",
+            "label_7",
+            "lineEdit_result_pl"
+        )
+
+        # Элементы для математики
+        self._create_label_and_input(
+            "Результат экзамена с математики:",
+            "label_6",
+            "lineEdit_result_math"
+        )
+
+        # Элементы для иностранного языка
+        self._create_label_and_input(
+            "Результат экзамена с иностранного языка:",
+            "label_5",
+            "lineEdit_result_leng"
+        )
+
+    def _create_final_grades_column(self):
+        """Создает среднюю колонку с итоговыми оценками"""
+        self.verticalLayoutWidget_2 = QtWidgets.QWidget(parent=self.centralwidget)
+        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(200, 80, 201, 321))
+        self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
+
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
+        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+
+        # Элементы для польского языка
+        self._create_label_and_input(
+            "Итоговая оценка с польского:",
+            "label_8",
+            "lineEdit_pl"
+        )
+
+        # Элементы для математики
+        self._create_label_and_input(
+            "Итоговая оценка с математики:",
+            "label_9",
+            "lineEdit_math"
+        )
+
+        # Элементы для иностранного языка
+        self._create_label_and_input(
+            "Итоговая оценка с иностранного языка:",
+            "label_10",
+            "lineEdit_lang"
+        )
+
+        # Элементы для дополнительного предмета
+        self._create_label_and_input(
+            "Итоговая оценка с доп. предмета:",
+            "label_11",
+            "lineEdit_addsub"
+        )
+
+    def _create_results_column(self):
+        """Создает правую колонку с кнопкой и итоговыми результатами"""
+        # Кнопка расчета
+        self.pushButton_Calculate = QtWidgets.QPushButton(parent=self.centralwidget)
+        self.pushButton_Calculate.setGeometry(QtCore.QRect(400, 80, 200, 50))
+        self.pushButton_Calculate.setStyleSheet("""
+            font: 600 15pt "Segoe UI";
+            color: rgb(0, 0, 0);
+        """)
+        self.pushButton_Calculate.setObjectName("pushButton_Calculate")
+
+        # Блок с итоговыми результатами
+        self.verticalLayoutWidget_3 = QtWidgets.QWidget(parent=self.centralwidget)
+               ("Баллы полученные за итоговые оценки:", "label_totalmarkyear"),
+            ("Все баллы:", "label_totalmark")
+        ]
+
+        for text, name in results_labels:
+            label = QtWidgets.QLabel(parent=self.verticalLayoutWidget_3)
+            label.setStyleSheet("background-color: rgb(255, 255, 255);")
+            label.setObjectName(name)
+            self.verticalLayout_3.addWidget(label)
+
+    def _create_label_and_input(self, text, label_name, lineedit_name):
+        """Создает пару метка + поле ввода"""
+        label = QtWidgets.QLabel(parent=self.verticalLayoutWidget)
+        label.setStyleSheet("""
+            font: 700 italic 12pt "Arial";
+            background-color: rgb(176, 176, 176);
+        """)
+        label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        label.setObjectName(label_name)
+
+        lineedit = QtWidgets.QLineEdit(parent=self.verticalLayoutWidget)
+        lineedit.setObjectName(lineedit_name)
+
+        # Добавляем элементы в соответствующий layout
+        if hasattr(self, 'verticalLayout_2'):
+            layout = self.verticalLayout_2
+            label.setParent(self.verticalLayoutWidget_2)
+            lineedit.setParent(self.verticalLayoutWidget_2)
+        else:
+            layout = self.verticalLayout
+
+        layout.addWidget(label)
+        layout.addWidget(lineedit)
+
+        setattr(self, label_name, label)
+        setattr(self, lineedit_name, lineedit)
+
+    def retranslateUi(self, MainWindow):
+        """Устанавливает тексты для всех элементов интерфейса"""
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+
+        # Установка текстов для меток
+        texts = {
+            "label_1": "Калькулятор баллов для поступления",
+            "label_2": "Результаты экзаменов",
+            "label_3": "Итоговые оценки",
+            "label_4": "Итого",
+            "label_7": "Результат экзамена с польского:",
+            "label_6": "Результат экзамена с математики:",
+            "label_5": "Результат экзамена с иностранного языка:",
+            "label_8": "Итоговая оценка с польского:",
+            "label_9": "Итоговая оценка с математики:",
+            "label_10": "Итоговая оценка с иностранного языка:",
+            "label_11": "Итоговая оценка с доп. предмета:",
+            "pushButton_Calculate": "Рассчитать баллы",
+            "label_totalresulttest": "Баллы полученные за экзамены:",
+            "label_totalmarkyear": "Баллы полученные за итоговые оценки:",
+            "label_totalmark": "Все баллы:"
+        }
+
+        for name, text in texts.items():
+            widget = getattr(self, name)
+            widget.setText(_translate("MainWindow", text))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec())    self.verticalLayoutWidget_3.setGeometry(QtCore.QRect(400, 130, 225, 271))
+        self.verticalLayoutWidget_3.setObjectName("verticalLayoutWidget_3")
+
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_3)
+        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_3.setObjectName("verticalLayout_3")
+
+        # Метки результатов
+        results_labels = [
+            ("Баллы полученные за экзамены:", "label_totalresulttest"),

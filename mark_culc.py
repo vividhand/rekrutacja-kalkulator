@@ -1,0 +1,282 @@
+from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6.QtCore import QCoreApplication
+_translate = QCoreApplication.translate
+
+class MainWindow(QtWidgets.QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setup_ui()
+        self.total_result_test = 0
+        self.total_murk = 0
+        self.total_murks = 0
+        self.calculate()
+    def setup_ui(self):
+        self.setObjectName("MainWindow")
+        self.resize(600, 400)
+        self.setStyleSheet("")
+        self.centralwidget = QtWidgets.QWidget(parent=self)
+        self.centralwidget.setObjectName("centralwidget")
+        self.setCentralWidget(self.centralwidget)
+
+        self.label_1 = QtWidgets.QLabel(parent=self.centralwidget)
+        self.label_1.setGeometry(QtCore.QRect(0, 0, 600, 50))
+        self.label_1.setStyleSheet("font: 24pt \"Segoe UI\";\ncolor: rgb(0, 0, 0);\nbackground-color: rgb(176, 176, 176);")
+        self.label_1.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.label_1.setObjectName("label_1")
+
+        self.label_2 = QtWidgets.QLabel(parent=self.centralwidget)
+        self.label_2.setGeometry(QtCore.QRect(0, 50, 200, 30))
+        self.label_2.setStyleSheet("font: 13pt \"Microsoft JhengHei UI\";\nbackground-color: rgb(0, 255, 0);")
+        self.label_2.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.label_2.setObjectName("label_2")
+
+        self.label_3 = QtWidgets.QLabel(parent=self.centralwidget)
+        self.label_3.setGeometry(QtCore.QRect(200, 50, 200, 30))
+        self.label_3.setStyleSheet("font: 13pt \"Microsoft JhengHei UI\";\nbackground-color: rgb(0, 255, 0);")
+        self.label_3.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.label_3.setObjectName("label_3")
+
+        self.label_4 = QtWidgets.QLabel(parent=self.centralwidget)
+        self.label_4.setGeometry(QtCore.QRect(400, 50, 200, 30))
+        self.label_4.setStyleSheet("font: 20pt \"Microsoft JhengHei UI\";\nbackground-color: rgb(0, 255, 0);")
+        self.label_4.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.label_4.setObjectName("label_4")
+
+        # === Вертикальные блоки ввода ===
+        self.setup_vertical_inputs()
+
+        # === Кнопка и результаты ===
+        self.pushButton_Calculate = QtWidgets.QPushButton(parent=self.centralwidget)
+        self.pushButton_Calculate.setGeometry(QtCore.QRect(400, 80, 200, 50))
+        self.pushButton_Calculate.setStyleSheet("font: 600 15pt \"Segoe UI\";\ncolor: rgb(0, 0, 0);")
+        self.pushButton_Calculate.setObjectName("pushButton_Calculate")
+
+        self.verticalLayoutWidget_3 = QtWidgets.QWidget(parent=self.centralwidget)
+        self.verticalLayoutWidget_3.setGeometry(QtCore.QRect(400, 130, 225, 271))
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_3)
+        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
+
+        self.label_totalresulttest = QtWidgets.QLabel(parent=self.verticalLayoutWidget_3)
+        self.label_totalresulttest.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.verticalLayout_3.addWidget(self.label_totalresulttest)
+
+        self.label_totalmarkyear = QtWidgets.QLabel(parent=self.verticalLayoutWidget_3)
+        self.label_totalmarkyear.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.verticalLayout_3.addWidget(self.label_totalmarkyear)
+
+        self.label_totalmark = QtWidgets.QLabel(parent=self.verticalLayoutWidget_3)
+        self.label_totalmark.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.verticalLayout_3.addWidget(self.label_totalmark)
+
+        self.retranslate_ui()
+        QtCore.QMetaObject.connectSlotsByName(self)
+
+    def setup_vertical_inputs(self):
+        # === Левая колонка ===
+        self.verticalLayoutWidget = QtWidgets.QWidget(parent=self.centralwidget)
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(0, 80, 201, 321))
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+
+        self.label_7 = QtWidgets.QLabel(parent=self.verticalLayoutWidget)
+        self.label_7.setStyleSheet("font: 700 italic 12pt \"Arial\";\nbackground-color: rgb(176, 176, 176);")
+        self.label_7.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.verticalLayout.addWidget(self.label_7)
+
+        self.lineEdit_result_pl = QtWidgets.QLineEdit(parent=self.verticalLayoutWidget)
+        self.verticalLayout.addWidget(self.lineEdit_result_pl)
+
+        self.label_6 = QtWidgets.QLabel(parent=self.verticalLayoutWidget)
+        self.label_6.setStyleSheet("font: 700 italic 12pt \"Arial\";\nbackground-color: rgb(176, 176, 176);")
+        self.label_6.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.verticalLayout.addWidget(self.label_6)
+
+        self.lineEdit_result_math = QtWidgets.QLineEdit(parent=self.verticalLayoutWidget)
+        self.verticalLayout.addWidget(self.lineEdit_result_math)
+
+        self.label_5 = QtWidgets.QLabel(parent=self.verticalLayoutWidget)
+        self.label_5.setStyleSheet("font: 700 italic 12pt \"Arial\";\nbackground-color: rgb(176, 176, 176);")
+        self.label_5.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.label_5.setText("<html><head/><body><p>Результат экзамена </p><p>с иностранного языка:</p></body></html>")
+        self.verticalLayout.addWidget(self.label_5)
+
+        self.lineEdit_result_leng = QtWidgets.QLineEdit(parent=self.verticalLayoutWidget)
+        self.verticalLayout.addWidget(self.lineEdit_result_leng)
+
+        # === Правая колонка ===
+        self.verticalLayoutWidget_2 = QtWidgets.QWidget(parent=self.centralwidget)
+        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(200, 80, 201, 321))
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
+        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
+
+        self.label_8 = QtWidgets.QLabel(parent=self.verticalLayoutWidget_2)
+        self.label_8.setStyleSheet("font: 700 italic 12pt \"Arial\";\nbackground-color: rgb(176, 176, 176);")
+        self.label_8.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.verticalLayout_2.addWidget(self.label_8)
+
+        self.lineEdit_pl = QtWidgets.QLineEdit(parent=self.verticalLayoutWidget_2)
+        self.verticalLayout_2.addWidget(self.lineEdit_pl)
+
+        self.label_9 = QtWidgets.QLabel(parent=self.verticalLayoutWidget_2)
+        self.label_9.setStyleSheet("font: 700 italic 12pt \"Arial\";\nbackground-color: rgb(176, 176, 176);")
+        self.label_9.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.verticalLayout_2.addWidget(self.label_9)
+
+        self.lineEdit_math = QtWidgets.QLineEdit(parent=self.verticalLayoutWidget_2)
+        self.verticalLayout_2.addWidget(self.lineEdit_math)
+
+        self.label_10 = QtWidgets.QLabel(parent=self.verticalLayoutWidget_2)
+        self.label_10.setStyleSheet("font: 700 italic 12pt \"Arial\";\nbackground-color: rgb(176, 176, 176);")
+        self.label_10.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.label_10.setText("<html><head/><body><p>Итоговая оценка</p><p>с иностраного языка:</p></body></html>")
+        self.verticalLayout_2.addWidget(self.label_10)
+
+        self.lineEdit_lang = QtWidgets.QLineEdit(parent=self.verticalLayoutWidget_2)
+        self.verticalLayout_2.addWidget(self.lineEdit_lang)
+
+        self.label_11 = QtWidgets.QLabel(parent=self.verticalLayoutWidget_2)
+        self.label_11.setStyleSheet("font: 700 italic 12pt \"Arial\";\nbackground-color: rgb(176, 176, 176);")
+        self.label_11.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.verticalLayout_2.addWidget(self.label_11)
+
+        self.lineEdit_addsub = QtWidgets.QLineEdit(parent=self.verticalLayoutWidget_2)
+        self.verticalLayout_2.addWidget(self.lineEdit_addsub)
+
+    def retranslate_ui(self):
+        self.total_result_test = 0
+        self.total_murk = 0
+        self.total_murks = 0
+        _translate = QtCore.QCoreApplication.translate
+        self.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.label_1.setText(_translate("MainWindow", "Калькулятор баллов для поступления"))
+        self.label_2.setText(_translate("MainWindow", "Результаты экзаменов"))
+        self.label_3.setText(_translate("MainWindow", "<html><head/><body><p>Итоговые оценки</p></body></html>"))
+        self.label_4.setText(_translate("MainWindow", "Итого"))
+        self.label_7.setText(_translate("MainWindow", "<html><head/><body><p>Результат экзамена</p><p> с польского:</p></body></html>"))
+        self.label_6.setText(_translate("MainWindow", "<html><head/><body><p>Результат экзамена</p><p> с математики:</p></body></html>"))
+        self.label_8.setText(_translate("MainWindow", "<html><head/><body><p>Итоговая оценка</p><p>с польского:</p></body></html>"))
+        self.label_9.setText(_translate("MainWindow", "<html><head/><body><p>Итоговая оценка</p><p>с математики:</p></body></html>"))
+        self.label_11.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\">Итоговая оценка</p><p align=\"center\">с доп. предмета:</p></body></html>"))
+        self.pushButton_Calculate.setText(_translate("MainWindow", "Рассчитать баллы"))
+        self.label_totalresulttest.setText(_translate("MainWindow", f"<html><head/><body><p align=\"justify\"><span style=\" font-size:12pt; font-weight:700; font-style:italic;\">Баллы полученные</span></p><p align=\"justify\"><span style=\" font-size:12pt; font-weight:700; font-style:italic;\">за экзамены: {self.total_result_test}</span></p></body></html>"))
+        self.label_totalmarkyear.setText(_translate("MainWindow", f"<html><head/><body><p align=\"justify\"><span style=\" font-size:12pt; font-weight:700;\">Баллы полученные </span></p><p align=\"justify\"><span style=\" font-size:12pt; font-weight:700;\">за итоговые оценки: {self.total_murk}</span></p></body></html>"))
+        self.label_totalmark.setText(_translate("MainWindow", f"<html><head/><body><p align=\"justify\"><span style=\" font-size:14pt; font-weight:700;\">Все баллы: {self.total_murks}</span></p></body></html>"))
+
+    def calculate_result_test(self):
+        try:
+            self.pl_test_result = float(self.lineEdit_result_pl.text())
+            self.math_test_result = float(self.lineEdit_result_math.text())
+            self.lang_test_result = float(self.lineEdit_result_leng.text())
+            self.total_result_test = (
+                    self.pl_test_result * 0.35 +
+                    self.math_test_result * 0.35 +
+                    self.lang_test_result * 0.3
+            )
+        except Exception as e:
+            print("Ошибка при вычислении результата теста:", e)
+    def calculate_result_mark(self):
+        self.pl_murk = float(self.lineEdit_pl.text())
+        self.math_murk = float(self.lineEdit_math.text())
+        self.lang_murk = float(self.lineEdit_lang.text())
+        self.addsub_murk = float(self.lineEdit_addsub.text())
+        try:
+            if self.pl_murk == 1:
+                self.total_murk += 0
+            elif self.pl_murk == 2:
+                self.total_murk += 2
+            elif self.pl_murk == 3:
+                self.total_murk += 8
+            elif self.pl_murk == 4:
+                self.total_murk += 14
+            elif self.pl_murk == 5:
+                self.total_murk += 17
+            elif self.pl_murk == 6:
+                self.total_murk += 18
+            else:
+                self.total_murk += 0
+
+            if self.math_murk == 1:
+                self.total_murk += 0
+            elif self.math_murk == 2:
+                self.total_murk += 2
+            elif self.math_murk == 3:
+                self.total_murk += 8
+            elif self.math_murk == 4:
+                self.total_murk += 14
+            elif self.math_murk == 5:
+                self.total_murk += 17
+            elif self.math_murk == 6:
+                self.total_murk += 18
+            else:
+                self.total_murk += 0
+
+            if self.lang_murk == 1:
+                self.total_murk += 0
+            elif self.lang_murk == 2:
+                self.total_murk += 2
+            elif self.lang_murk == 3:
+                self.total_murk += 8
+            elif self.lang_murk == 4:
+                self.total_murk += 14
+            elif self.lang_murk == 5:
+                self.total_murk += 17
+            elif self.lang_murk == 6:
+                self.total_murk += 18
+            else:
+                self.total_murk += 0
+
+
+            if self.addsub_murk == 1:
+                self.total_murk += 0
+            elif self.addsub_murk == 2:
+                self.total_murk += 2
+            elif self.addsub_murk == 3:
+                self.total_murk += 8
+            elif self.addsub_murk == 4:
+                self.total_murk += 14
+            elif self.addsub_murk == 5:
+                self.total_murk += 17
+            elif self.addsub_murk == 6:
+                self.total_murk += 18
+            else:
+                self.total_murk += 0
+        except Exception as e:
+            print("Ошибка при вычислении результата оценок:", e)
+    def calculate(self):
+        try:
+            self.pushButton_Calculate.clicked.connect(self.calculate_all)
+        except:
+            print("infw")
+
+    def calculate_all(self):
+        try:
+            self.calculate_result_test()
+            self.calculate_result_mark()
+
+            if not hasattr(self, 'total_murk'):
+                raise ValueError("self.total_murk не определена после вызова culculate_result_mark()")
+
+            self.total_murks = self.total_result_test + self.total_murk
+
+            self.label_totalresulttest.setText(_translate("MainWindow",
+                                                          f"<html><head/><body><p align=\"justify\"><span style=\" font-size:12pt; font-weight:700; font-style:italic;\">Баллы полученные</span></p>"
+                                                          f"<p align=\"justify\"><span style=\" font-size:12pt; font-weight:700; font-style:italic;\">за экзамены: {self.total_result_test}</span></p></body></html>"
+                                                          ))
+
+            self.label_totalmarkyear.setText(_translate("MainWindow",
+                                                        f"<html><head/><body><p align=\"justify\"><span style=\" font-size:12pt; font-weight:700;\">Баллы полученные </span></p>"
+                                                        f"<p align=\"justify\"><span style=\" font-size:12pt; font-weight:700;\">за итоговые оценки: {self.total_murk}</span></p></body></html>"
+                                                        ))
+
+            self.label_totalmark.setText(_translate("MainWindow", f"<html><head/><body><p align=\"justify\"><span style=\" font-size:14pt; font-weight:700;\">Все баллы: {self.total_murks}</span></p></body></html>"))
+
+        except Exception as e:
+            print("Ошибка в calculate_all:", e)
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    sys.exit(app.exec())
